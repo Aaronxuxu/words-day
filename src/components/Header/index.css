@@ -1,0 +1,7 @@
+.wd-header {
+  display: flex;
+  padding: 5px 20px;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #fff;
+}
