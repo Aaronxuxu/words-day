@@ -8,7 +8,6 @@ export const getWrod = (data) => {
     if (status !== 0) {
       message.error(msg);
     }
-
     return dispatch({
       type: GETWORD,
       data: result || {},

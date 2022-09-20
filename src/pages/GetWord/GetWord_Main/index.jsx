@@ -10,29 +10,18 @@ function GetWordMain(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalVal, setModalVal] = useState({});
 
-  const [noReadItems, setNoReadItems] = useState([]);
-
   const navigate = useNavigate();
-  const location = useLocation();
-  const search = qs.parse(location.search);
-  const { isDic } = search;
+  const { search, pathname } = useLocation();
+  const qsSearch = qs.parse(search);
   const { WORDS } = props;
 
   useEffect(() => {
-    if (isDic === "true" && WORDS.data) {
-      let { data } = WORDS;
-      for (let i = 0; i < data.length; i++) {
-        let j = Math.floor(Math.random() * data.length);
-        [data[i], data[j]] = [data[j], data[i]];
-      }
-      setNoReadItems(data);
-    }
     setIsLoading(Object.keys(WORDS).length === 0);
-  }, [WORDS, isDic]);
+  }, [WORDS]);
 
   const handleChange = (page, pageSize) => {
-    const obj = { ...search, pageNo: page, pageSize };
-    return navigate(`/getword?${qs.stringify(obj)}`);
+    const obj = { ...qsSearch, pageNo: page, pageSize };
+    return navigate(`${pathname}?${qs.stringify(obj)}`);
   };
 
   const handleShowInfo = (val) => {
@@ -55,15 +44,23 @@ function GetWordMain(props) {
               xl: 5,
               xxl: 5,
             }}
-            dataSource={isDic === "true" ? noReadItems : WORDS.data}
+            dataSource={WORDS.data}
             renderItem={(item) => (
-              <List.Item onClick={() => handleShowInfo(item)}>
+              <List.Item
+                onClick={() =>
+                  handleShowInfo({
+                    ...item,
+                    props: WORDS.props,
+                    ctypeID: WORDS.ctypeName,
+                  })
+                }
+              >
                 <Card
                   hoverable={true}
                   bordered={false}
                   bodyStyle={{ padding: "50px 24px", fontSize: "16px" }}
                 >
-                  {isDic === "true" ? item.cwords[0] : item.word}
+                  {item.label}
                 </Card>
               </List.Item>
             )}

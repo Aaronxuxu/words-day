@@ -20,6 +20,7 @@ import {
   CloseSquareOutlined,
   CheckSquareOutlined,
 } from "@ant-design/icons";
+import { addTypeName } from "../../api/axios";
 import "./index.css";
 
 const { Option } = Select;
@@ -54,7 +55,7 @@ function AddWord() {
     }
   };
 
-  const handleAdd = async (formName, { values, forms }) => {
+  const handleAdd = async (_, { values, forms }) => {
     const isArray = Object.keys(isDisabled)
       .filter((e) => isDisabled[e].is)
       .map((e) => forms[e].validateFields());
@@ -93,7 +94,21 @@ function AddWord() {
       [key]: { ...isDisabled[key], is: checked },
     });
   };
-
+  const handleNext = (e, method) => {
+    const { keyCode } = e;
+    if (keyCode === 13) {
+      method();
+    }
+  };
+  const handleCtypeName = async (value) => {
+    const { msg, status } = await addTypeName(value);
+    console.log(value, msg, status, addTypeName);
+    if (status === 1) {
+      return message.error(msg);
+    } else {
+      return message.success("添加成功");
+    }
+  };
   useEffect(() => {
     getWordsType();
   }, []);
@@ -132,7 +147,11 @@ function AddWord() {
               <Card>
                 <Form name="wordForm" layout="vertical">
                   <Form.Item label="单词" name="label">
-                    <Input autoComplete="off" placeholder="请输入单词"></Input>
+                    <Input
+                      autoComplete="off"
+                      placeholder="请输入单词"
+                      autoFocus
+                    ></Input>
                   </Form.Item>
                   <Form.List
                     name="translate"
@@ -147,7 +166,6 @@ function AddWord() {
                         },
                       },
                     ]}
-                    initialValue={[""]}
                   >
                     {(fields, { add, remove }, { errors }) => (
                       <>
@@ -156,6 +174,7 @@ function AddWord() {
                             label={index === 0 ? "中文翻译" : ""}
                             required={false}
                             key={field.key}
+                            onKeyUp={(e) => handleNext(e, add)}
                           >
                             <Form.Item
                               {...field}
@@ -170,6 +189,7 @@ function AddWord() {
                               noStyle
                             >
                               <Input
+                                autoFocus={true}
                                 placeholder="passenger name"
                                 style={{
                                   width: "80%",
@@ -265,7 +285,11 @@ function AddWord() {
                               {(fields, { add, remove }, { errors }) => (
                                 <>
                                   {fields.map((field, index) => (
-                                    <Form.Item required={false} key={field.key}>
+                                    <Form.Item
+                                      required={false}
+                                      key={field.key}
+                                      onKeyUp={(e) => handleNext(e, add)}
+                                    >
                                       <Form.Item
                                         {...field}
                                         validateTrigger={["onChange", "onBlur"]}
@@ -284,6 +308,7 @@ function AddWord() {
                                             width: "80%",
                                             marginRight: "5px",
                                           }}
+                                          autoFocus
                                         />
                                       </Form.Item>
                                       {fields.length > 1 ? (
@@ -406,7 +431,11 @@ function AddWord() {
                               {(fields, { add, remove }, { errors }) => (
                                 <>
                                   {fields.map((field, index) => (
-                                    <Form.Item required={false} key={field.key}>
+                                    <Form.Item
+                                      required={false}
+                                      key={field.key}
+                                      onKeyUp={(e) => handleNext(e, add)}
+                                    >
                                       <Form.Item
                                         {...field}
                                         validateTrigger={["onChange", "onBlur"]}
@@ -420,6 +449,7 @@ function AddWord() {
                                         noStyle
                                       >
                                         <Input
+                                          autoFocus
                                           placeholder="中文"
                                           style={{
                                             width: "80%",
@@ -521,7 +551,10 @@ function AddWord() {
                                 },
                               ]}
                             >
-                              <Input placeholder="英文搭配" />
+                              <Input.TextArea
+                                autoSize={true}
+                                placeholder="英文搭配"
+                              />
                             </Form.Item>
                             <Form.List
                               {...restField}
@@ -542,7 +575,11 @@ function AddWord() {
                               {(fields, { add, remove }, { errors }) => (
                                 <>
                                   {fields.map((field, index) => (
-                                    <Form.Item required={false} key={field.key}>
+                                    <Form.Item
+                                      required={false}
+                                      key={field.key}
+                                      onKeyUp={(e) => handleNext(e, add)}
+                                    >
                                       <Form.Item
                                         {...field}
                                         validateTrigger={["onChange", "onBlur"]}
@@ -555,7 +592,9 @@ function AddWord() {
                                         ]}
                                         noStyle
                                       >
-                                        <Input
+                                        <Input.TextArea
+                                          autoFocus
+                                          autoSize={true}
                                           placeholder="中文"
                                           style={{
                                             width: "80%",
@@ -618,6 +657,20 @@ function AddWord() {
           </Col>
         </Row>
       </Form.Provider>
+      <Form onFinish={handleCtypeName} style={{ marginTop: "15px" }}>
+        <Form.Item
+          name="ctypeName"
+          label="词汇种类"
+          rules={[{ required: true, message: "必填" }]}
+        >
+          <Input placeholder="词汇种类" autoComplete="off"></Input>
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" type="primary">
+            添加词汇分类
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 }
