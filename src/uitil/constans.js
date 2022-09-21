@@ -11,3 +11,7 @@ export const CLEARWORD = "clearword";
 // redux打开关闭form表单
 export const OPEN = "open";
 export const CLOSE = "close";
+
+// 用户登录退出
+export const LOGIN = "login";
+export const LOGOUT = "logout";

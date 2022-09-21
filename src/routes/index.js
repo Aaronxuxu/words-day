@@ -4,6 +4,7 @@ const routes = [
   { path: "/", element: lazy(() => import("../pages/GetWord")) },
   { path: "/addword", element: lazy(() => import("../pages/AddWord")) },
   { path: "/getword", element: lazy(() => import("../pages/GetWord")) },
+  { path: "/login", element: lazy(() => import("../pages/UserLogin")) },
 ];
 
 export default routes;

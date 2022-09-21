@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Input, Button, Row, Col, Space, Radio } from "antd";
+import { Input, Button, Row, Col, Space, Radio, Select } from "antd";
 
 import { connect } from "react-redux";
 import WordsModal from "../../../components/WordsModal";
@@ -40,6 +40,8 @@ function GetWordSearch(props) {
         searchVal: value === "" ? undefined : value,
         pageNo: 1,
       };
+    } else if (key === "select") {
+      searchObj = { ...searchObj, props: value, pageNo: 1 };
     } else {
       searchObj = { ...searchObj, props: value.target.value, pageNo: 1 };
       setRadioValue(value.target.value);
@@ -87,9 +89,9 @@ function GetWordSearch(props) {
         </Col>
 
         {/* 筛选分类、筛选单词、固定搭配、例句、短语或全部 */}
-        <Col xs={0} sm={18}>
+        <Col xs={24} sm={18}>
           <Row align="middle" justify="center">
-            <Col sm={6}>
+            <Col xs={12} sm={6}>
               <SearchSelect
                 selectValue={WORDS.ctypeName}
                 style={{ width: "100%" }}
@@ -98,12 +100,20 @@ function GetWordSearch(props) {
                 onChange={(val) => handleAlter("ctypeName", val)}
               />
             </Col>
-            <Col sm={{ span: 17, offset: 1 }} flex="unset">
+            <Col xs={0} sm={{ span: 17, offset: 1 }} flex="unset">
               <Radio.Group
                 onChange={(e) => handleAlter("radio", e)}
                 value={radioValue}
                 options={checkOption}
               ></Radio.Group>
+            </Col>
+            <Col xs={{ span: 8, offset: 1 }} sm={0}>
+              <Select
+                options={checkOption}
+                style={{ width: "100%" }}
+                value={radioValue}
+                onChange={(val) => handleAlter("select", val)}
+              ></Select>
             </Col>
           </Row>
         </Col>
