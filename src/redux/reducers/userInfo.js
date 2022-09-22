@@ -9,7 +9,7 @@ function userInfo(prev = init, actions) {
     case LOGIN:
       return data;
     case LOGOUT:
-      return "";
+      return null;
     default:
       return prev;
   }

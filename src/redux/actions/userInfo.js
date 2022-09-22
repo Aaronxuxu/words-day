@@ -1,5 +1,5 @@
 import { LOGIN, LOGOUT } from "../../uitil/constans";
-import { login } from "../../api/axios";
+import { login, logout } from "../../api/axios";
 
 import cookie from "react-cookies";
 
@@ -20,5 +20,21 @@ export const loginAction = (data) => {
       });
       return "ok";
     }
+  };
+};
+
+// 退出登录
+export const logoutAction = (data) => {
+  return async (dispatch) => {
+    const { msg, status } = await logout();
+    if (status === 1) {
+      return Promise.reject(msg);
+    }
+    cookie.remove("userInfo");
+    dispatch({
+      type: LOGOUT,
+      data: null,
+    });
+    return "ok";
   };
 };

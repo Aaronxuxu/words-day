@@ -1,7 +1,18 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Avatar, Row, Col, Button, Affix, Menu, Dropdown } from "antd";
+import {
+  Avatar,
+  Modal,
+  Row,
+  Col,
+  Button,
+  Affix,
+  Menu,
+  Dropdown,
+  notification,
+} from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   AlignCenterOutlined,
   UserOutlined,
@@ -9,30 +20,62 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { openModal } from "../../redux/actions/formModal";
-
+import { logoutAction } from "../../redux/actions/userInfo";
 import "./index.css";
 
-const menu = (
-  <Menu
-    items={[
-      { label: "个人中心", key: "info", icon: <UserOutlined /> },
-      { label: "筛选词汇", key: "words", icon: <SelectOutlined /> },
-      {
-        type: "divider",
-      },
-      { label: "退出登录", key: "logout", icon: <LogoutOutlined /> },
-    ]}
-  ></Menu>
-);
-
+const { confirm } = Modal;
 function Header(props) {
-  const { openModal, userInfo } = props;
+  const { openModal, userInfo, logoutAction } = props;
 
   const navigate = useNavigate();
 
   const handleReset = () => {
     return navigate("/getword");
   };
+
+  const handleClick = ({ key }) => {
+    if (key === "logout") {
+      confirm({
+        title: "确定要退出吗？",
+        icon: <ExclamationCircleOutlined />,
+        content: "退出可继续使用，但无法查询已学部分",
+        maskClosable: true,
+        async onOk() {
+          try {
+            await logoutAction();
+            notification["success"]({
+              message: "退出成功！",
+              description: "正在跳转回首页",
+            });
+            navigate("/");
+          } catch (error) {
+            notification["error"]({
+              message: error,
+              description: "如出现多次退出未成功，请联系管理员。",
+            });
+          }
+        },
+      });
+    }
+  };
+
+  const menu = (
+    <Menu
+      onClick={handleClick}
+      items={[
+        {
+          label: <Link to="userInfo">个人中心</Link>,
+          key: "info",
+          icon: <UserOutlined />,
+        },
+        { label: "筛选词汇", key: "words", icon: <SelectOutlined /> },
+        {
+          type: "divider",
+        },
+        { label: "退出登录", key: "logout", icon: <LogoutOutlined /> },
+      ]}
+    ></Menu>
+  );
 
   return (
     <Affix offsetTop={0}>
@@ -52,7 +95,7 @@ function Header(props) {
             <Dropdown
               placement="bottomRight"
               overlay={menu}
-              trigger={["click"]}
+              trigger={["click", "hover"]}
               arrow={{
                 pointAtCenter: true,
               }}
@@ -75,4 +118,5 @@ function Header(props) {
 }
 export default connect((state) => ({ userInfo: state.userInfo }), {
   openModal,
+  logoutAction,
 })(Header);

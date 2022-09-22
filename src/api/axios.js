@@ -7,6 +7,8 @@ export const login = (data) => ajax(`${BASEAPI}/user/login`, POST, data);
 export const register = (data) => ajax(`${BASEAPI}/user/register`, POST, data);
 // 注册检测是否存在账号
 export const isExist = (data) => ajax(`${BASEAPI}/user/isExist`, GET, data);
+// 退出登录
+export const logout = (data) => ajax(`${BASEAPI}/user/logout`, GET, data);
 
 // 添加词汇种类
 export const addTypeName = (data) =>
