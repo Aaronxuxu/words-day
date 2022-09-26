@@ -5,8 +5,8 @@ import store from "../redux/store";
 
 axios.defaults.timeout = 5 * 1000;
 axios.interceptors.request.use((config) => {
-  const token = store.getState().userInfo;
-  if (token !== "") {
+  const token = store.getState().userToken.token;
+  if (token !== null) {
     config.headers.Authorization = token;
   }
   return config;
@@ -26,7 +26,14 @@ function ajax(url, method = GET, data = {}) {
         return resolve(data);
       })
       .catch((err) => {
-        message.error(err);
+        const {
+          status,
+          data: { msg },
+        } = err.response;
+        message.error(msg);
+        if (status === 401) {
+          window.location.href = "/";
+        }
       });
   });
 }

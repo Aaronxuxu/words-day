@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Input, Form, Button, Row, Col, message } from "antd";
 import { connect } from "react-redux";
-import { loginAction } from "../../redux/actions/userInfo";
+import { loginAction } from "../../redux/actions/userToken";
 
 function UserLogin(props) {
   const { loginAction } = props;
@@ -24,13 +24,21 @@ function UserLogin(props) {
   return (
     <Row justify="center" style={{ marginTop: "15px" }}>
       <Col xs={24} sm={12}>
-        <Form form={form} autoComplete="off" onFinish={handleLogin}>
+        <Form
+          form={form}
+          autoComplete="off"
+          onFinish={handleLogin}
+          initialValues={{
+            account: "Aaron",
+            password: "Baekhyun1234",
+          }}
+        >
           <Form.Item
             label="账号"
             name="account"
             rules={[{ required: true, message: "必填项" }]}
           >
-            <Input placeholder="请输入账号" />
+            <Input placeholder="请输入账号" autoFocus />
           </Form.Item>
           <Form.Item
             label="密码"

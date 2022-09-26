@@ -1,29 +1,32 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, lazy } from "react";
 import { connect } from "react-redux";
 import "./App.css";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import routes from "./routes";
+import { mapRoutes } from "./routes";
 import Header from "./components/Header";
 import { BackTop, notification } from "antd";
+
+const GetWord = lazy(() => import("./pages/GetWord"));
+
 function App(props) {
-  const { userInfo } = props;
+  const { token } = props;
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
   // react 路由守卫
   useEffect(() => {
-    const infoRegExp = new RegExp("/userInfo");
-    if ((pathname === "/login" || pathname === "/register") && userInfo) {
+    const infoRegExp = new RegExp("/user");
+    if ((pathname === "/login" || pathname === "/register") && token) {
       navigate("/");
     }
-    if (infoRegExp.test(pathname) && userInfo === null) {
+    if (infoRegExp.test(pathname) && token === null) {
       notification["info"]({
         message: "页面跳转提示",
         description: "当前未登录！正在跳转到登录页面",
       });
       navigate("/login");
     }
-  }, [pathname, userInfo]);
+  }, [pathname, token]);
 
   return (
     <div className="App">
@@ -31,9 +34,8 @@ function App(props) {
       <div className="wd-routes">
         <Suspense fallback={<>加载中</>}>
           <Routes>
-            {routes.map((e) => (
-              <Route path={e.path} key={e.path} element={<e.element />}></Route>
-            ))}
+            <Route index element={<GetWord />}></Route>
+            {mapRoutes.map((e) => e)}
           </Routes>
         </Suspense>
       </div>
@@ -42,4 +44,4 @@ function App(props) {
   );
 }
 
-export default connect((state) => ({ userInfo: state.userInfo }), {})(App);
+export default connect((state) => ({ token: state.userToken.token }), {})(App);

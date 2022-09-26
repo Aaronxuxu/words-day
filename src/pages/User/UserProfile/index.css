@@ -1,0 +1,58 @@
+.userprofile {
+  text-align: left;
+}
+.userprofile-card {
+  box-shadow: rgb(0 0 0 / 4%) 0px 1px 3px, rgb(0 0 0 / 12%) 0px 6px 16px;
+  border-radius: 10px;
+}
+.userprofile-card-title {
+  /* font-size: 16px; */
+}
+.userprofile-card-fw {
+  padding: 12px 24px;
+}
+
+.userprofile-card-Info {
+  transition: all ease 0.2s;
+}
+
+.userprofile-card-Info:hover {
+  box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f,
+    0 5px 12px 4px #00000017;
+  cursor: pointer;
+}
+.userprofile-card-Info-editBtn {
+  opacity: 0;
+  transition: all ease 0.2s;
+}
+.userprofile-card-Info:hover .userprofile-card-Info-editBtn {
+  opacity: 1;
+}
+.userprofile-card-info-title {
+  display: flex;
+  justify-content: start;
+  align-items: flex-end;
+  gap: 10px;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+.userprofile-card-info-userName-main {
+  font-size: 22px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.userprofile-card-info-tags {
+  font-size: 14px;
+}
+
+.userprofile-card-form {
+  background-color: #f2f6fb;
+}
+.userprofile-card-form .userprofile-card-form-title {
+  font-size: 16px;
+  padding: 15px 0;
+}
+.userprofile-card-form .form-item {
+  border-radius: 6px !important;
+}

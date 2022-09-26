@@ -20,13 +20,12 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { openModal } from "../../redux/actions/formModal";
-import { logoutAction } from "../../redux/actions/userInfo";
+import { logoutAction } from "../../redux/actions/userToken";
 import "./index.css";
 
 const { confirm } = Modal;
 function Header(props) {
-  const { openModal, userInfo, logoutAction } = props;
-
+  const { openModal, userToken, logoutAction } = props;
   const navigate = useNavigate();
 
   const handleReset = () => {
@@ -64,7 +63,7 @@ function Header(props) {
       onClick={handleClick}
       items={[
         {
-          label: <Link to="userInfo">个人中心</Link>,
+          label: <Link to="user">个人中心</Link>,
           key: "info",
           icon: <UserOutlined />,
         },
@@ -91,7 +90,7 @@ function Header(props) {
           </Button>
         </Col>
         <Col sm={{ span: 2, offset: 22 }}>
-          {userInfo ? (
+          {userToken.token ? (
             <Dropdown
               placement="bottomRight"
               overlay={menu}
@@ -116,7 +115,7 @@ function Header(props) {
     </Affix>
   );
 }
-export default connect((state) => ({ userInfo: state.userInfo }), {
+export default connect((state) => ({ userToken: state.userToken }), {
   openModal,
   logoutAction,
 })(Header);

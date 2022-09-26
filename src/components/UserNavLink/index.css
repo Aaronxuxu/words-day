@@ -1,0 +1,14 @@
+.userLink {
+  display: block;
+  color: #a6a7a7;
+  padding: 10px 0;
+  border-radius: 2px;
+  font-size: 16px;
+}
+.userLink:hover {
+  background-color: #edeef0;
+}
+.userNavLink {
+  background-color: #edeef0;
+  color: #439ffb;
+}
