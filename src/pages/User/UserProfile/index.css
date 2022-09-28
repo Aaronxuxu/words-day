@@ -5,11 +5,9 @@
   box-shadow: rgb(0 0 0 / 4%) 0px 1px 3px, rgb(0 0 0 / 12%) 0px 6px 16px;
   border-radius: 10px;
 }
-.userprofile-card-title {
-  /* font-size: 16px; */
-}
+
 .userprofile-card-fw {
-  padding: 12px 24px;
+  padding: 24px 24px;
 }
 
 .userprofile-card-Info {
@@ -22,6 +20,7 @@
   cursor: pointer;
 }
 .userprofile-card-Info-editBtn {
+  margin-top: 15px;
   opacity: 0;
   transition: all ease 0.2s;
 }
@@ -43,9 +42,11 @@
   text-overflow: ellipsis;
 }
 .userprofile-card-info-tags {
-  font-size: 14px;
+  font-size: 15px;
 }
-
+.userprofile-card-info-tags-label {
+  color: #8a8a8e;
+}
 .userprofile-card-form {
   background-color: #f2f6fb;
 }

@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { routes } from "../../routes/index";
 import UserNavLink from "../../components/UserNavLink";
-import { Row, Col, Avatar, Space, Button } from "antd";
+import { Row, Col, Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-
+import { connect } from "react-redux";
 import "./index.css";
+import { BASE_IMAGE_URL } from "../../uitil/constans";
 
-function User() {
+function User(props) {
+  const { userAvatar } = props;
+
   const [menuItems, setMenuItems] = useState([]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setMenuItems(
@@ -32,6 +33,7 @@ function User() {
             }}
             icon={<UserOutlined />}
             shape="square"
+            src={userAvatar !== null ? BASE_IMAGE_URL + userAvatar : null}
           ></Avatar>
           <div className="user-left-nav">
             {menuItems.map((e) => (
@@ -51,4 +53,9 @@ function User() {
     </Row>
   );
 }
-export default User;
+export default connect(
+  (state) => ({
+    userAvatar: state.userToken.userAvatar,
+  }),
+  {}
+)(User);

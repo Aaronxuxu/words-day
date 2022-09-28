@@ -21,11 +21,19 @@ import {
 } from "@ant-design/icons";
 import { openModal } from "../../redux/actions/formModal";
 import { logoutAction } from "../../redux/actions/userToken";
+import { clearAllUserInfoAction } from "../../redux/actions/user";
+import { BASE_IMAGE_URL } from "../../uitil/constans";
 import "./index.css";
 
 const { confirm } = Modal;
 function Header(props) {
-  const { openModal, userToken, logoutAction } = props;
+  const {
+    openModal,
+    userToken,
+    logoutAction,
+    clearAllUserInfoAction,
+    userToken: { userAvatar },
+  } = props;
   const navigate = useNavigate();
 
   const handleReset = () => {
@@ -42,6 +50,7 @@ function Header(props) {
         async onOk() {
           try {
             await logoutAction();
+            await clearAllUserInfoAction();
             notification["success"]({
               message: "退出成功！",
               description: "正在跳转回首页",
@@ -102,10 +111,14 @@ function Header(props) {
               <Button
                 type="link"
                 size="large"
-                icon={<Avatar></Avatar>}
+                icon={
+                  <Avatar
+                    src={userAvatar !== null ? BASE_IMAGE_URL + userAvatar : ""}
+                  ></Avatar>
+                }
               ></Button>
             </Dropdown>
-          ) : (
+          ) : ( 
             <Button type="link" onClick={() => navigate("/login")}>
               登录
             </Button>
@@ -118,4 +131,5 @@ function Header(props) {
 export default connect((state) => ({ userToken: state.userToken }), {
   openModal,
   logoutAction,
+  clearAllUserInfoAction,
 })(Header);

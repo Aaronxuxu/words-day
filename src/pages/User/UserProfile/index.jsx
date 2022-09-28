@@ -1,31 +1,119 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
+import Moment from "moment";
 import {
   Card,
   Row,
   Col,
   Space,
   Divider,
-  Avatar,
   Button,
   Form,
   Input,
   Radio,
   Cascader,
   DatePicker,
+  message,
+  Progress,
 } from "antd";
 import { connect } from "react-redux";
-import { getProfileAction } from "../../../redux/actions/user";
+import {
+  getProfileAction,
+  updateProfileAction,
+} from "../../../redux/actions/user";
 import { getAreaAction } from "../../../redux/actions/jsonpAPI";
-import { createFromIconfontCN } from "@ant-design/icons";
+import IconFont from "../../../uitil/IconFont";
+import dayjs from "dayjs";
+
+import ProfileImage from "./ProfileImage";
 import "./index.css";
-const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/c/font_3672969_mu5bwtpigua.js",
-});
 
 function UserProfile(props) {
-  const { profile, getProfileAction, area, getAreaAction } = props;
+  const {
+    profile,
+    getProfileAction,
+    area,
+    getAreaAction,
+    updateProfileAction,
+  } = props;
+
+  const [profileForm] = Form.useForm();
+  const [precentValue, setPrecentValues] = useState({
+    userName: null,
+    userAvatar: null,
+    userLabel: null,
+    realName: null,
+    sex: null,
+    local: [],
+    birthday: null,
+    phone: null,
+    email: null,
+  });
+  const [percent, setPercent] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
+
+  const handleEdit = async (fieldsValue) => {
+    if (fieldsValue["birthday"]) {
+      fieldsValue = {
+        ...fieldsValue,
+        birthday: fieldsValue["birthday"].format("YYYY-MM"),
+      };
+    }
+    let arr = [];
+
+    if (fieldsValue["local"] && fieldsValue["local"].length > 0) {
+      const province = area.find((e) => e.value === fieldsValue["local"][0]);
+      arr.push(province);
+      if (fieldsValue["local"].length === 2) {
+        const city = province.children.find(
+          (e) => e.value === fieldsValue["local"][1]
+        );
+        arr.push(city);
+      }
+    }
+
+    fieldsValue = {
+      ...fieldsValue,
+      local: arr,
+    };
+    // 过滤出有效的数据
+    let realObj = {};
+    const realArr = Object.keys(fieldsValue).filter(
+      (e) => fieldsValue[e] !== undefined
+    );
+    realArr.forEach((e) => {
+      realObj = { ...realObj, [e]: fieldsValue[e] };
+    });
+
+    try {
+      await updateProfileAction(realObj);
+      profileForm.resetFields();
+      setIsEdit(false);
+      message.success("修改成功");
+    } catch (error) {
+      message.error("提交出现异常，请重新提交");
+    }
+  };
+
+  // 取消
+  const handleCancel = () => {
+    profileForm.resetFields();
+    setIsEdit(false);
+  };
+
+  useEffect(() => {
+    if (profile !== null) {
+      let obj = Object.assign(precentValue, profile);
+      setPrecentValues(obj);
+      const MaxLength = Object.keys(obj).length;
+      const valLength = Object.keys(obj).filter(
+        (e) => obj[e] === null || obj[e].length === 0
+      ).length;
+      let diff =
+        Math.round(((MaxLength - valLength) / MaxLength) * 100) - percent;
+
+      setPercent(percent + diff);
+    }
+  }, [profile]);
 
   useEffect(() => {
     if (profile === null) {
@@ -55,16 +143,17 @@ function UserProfile(props) {
             }
           >
             {!isEdit ? (
-              <Row
-                className="userprofile-card-fw userprofile-card-Info"
-                onClick={() => setIsEdit(true)}
-              >
-                <Col xs={24} sm={{ span: 18 }}>
+              <Row className="userprofile-card-fw userprofile-card-Info">
+                <Col xs={24} sm={{ span: 18 }} onClick={() => setIsEdit(true)}>
                   <div className="userprofile-card-info-title">
                     <div className="userprofile-card-info-userName-main">
                       {profile.userName}
                     </div>
-                    <IconFont type="icon-male" />
+                    {profile.sex && (
+                      <IconFont
+                        type={profile.sex ? "icon-male" : "icon-female"}
+                      />
+                    )}
                   </div>
                   <Space
                     wrap={true}
@@ -72,29 +161,39 @@ function UserProfile(props) {
                     split={<Divider type="vertical" />}
                     style={{ width: "100%" }}
                   >
-                    <Row wrap={true} gutter={8}>
-                      <Col>真实姓名</Col>
-                      <Col>{profile.realName || "-asdasdd-"}</Col>
+                    <Row wrap={true} gutter={10}>
+                      <Col className="userprofile-card-info-tags-label">
+                        真实姓名
+                      </Col>
+                      <Col>{profile.realName || "--"}</Col>
                     </Row>
-                    <Row wrap={true} gutter={8}>
-                      <Col>居住地</Col>
-                      <Col>{profile.local || "--"}</Col>
-                    </Row>
-                    <Row wrap={true} gutter={8}>
-                      <Col>生日</Col>
-                      <Col>{profile.bairthday || "--"}</Col>
-                    </Row>
-                    <Row wrap={true} gutter={8}>
+                    <Row wrap={true} gutter={10}>
+                      <Col className="userprofile-card-info-tags-label">
+                        居住地
+                      </Col>
                       <Col>
+                        {profile.local.map((e) => e.label).join("") || "--"}
+                      </Col>
+                    </Row>
+                    <Row wrap={true} gutter={10}>
+                      <Col className="userprofile-card-info-tags-label">
+                        生日
+                      </Col>
+                      <Col>
+                        {dayjs(profile.birthday).format("YYYY-MM") || "--"}
+                      </Col>
+                    </Row>
+                    <Row wrap={true} gutter={10}>
+                      <Col className="userprofile-card-info-tags-label">
                         <IconFont type="icon-phone" />
                       </Col>
                       <Col>{profile.phone || "--"}</Col>
                     </Row>
-                    <Row wrap={true} gutter={8}>
-                      <Col>
+                    <Row wrap={true} gutter={10}>
+                      <Col className="userprofile-card-info-tags-label">
                         <IconFont type="icon-email" />
                       </Col>
-                      <Col>{profile.phone || "--"}</Col>
+                      <Col>{profile.email || "--"}</Col>
                     </Row>
                   </Space>
                 </Col>
@@ -103,18 +202,11 @@ function UserProfile(props) {
                   sm={{ span: 5, offset: 1 }}
                   style={{ textAlign: "center" }}
                 >
-                  <Avatar
-                    shape="square"
-                    size={{
-                      sm: 75,
-                      md: 75,
-                      lg: 75,
-                      xl: 75,
-                      xxl: 75,
-                    }}
-                    icon={<IconFont type="icon-user" />}
-                  />
-                  <div className="userprofile-card-Info-editBtn">
+                  <ProfileImage />
+                  <div
+                    className="userprofile-card-Info-editBtn"
+                    onClick={() => setIsEdit(true)}
+                  >
                     <Button type="link" icon={<IconFont type="icon-bianji" />}>
                       编辑
                     </Button>
@@ -123,8 +215,17 @@ function UserProfile(props) {
               </Row>
             ) : (
               <div className="userprofile-card-fw userprofile-card-form">
-                <div className="userprofile-card-form-title">编辑个人资料</div>
-                <Form layout="vertical">
+                <div className="userprofile-card-form-title ">编辑个人资料</div>
+                <Form
+                  form={profileForm}
+                  layout="vertical"
+                  onFinish={handleEdit}
+                  initialValues={{
+                    ...profile,
+                    local: profile.local.map((e) => e.value) || [],
+                    birthday: new Moment(profile.birthday),
+                  }}
+                >
                   <Row>
                     {/* 昵称 */}
                     <Col xs={24} sm={{ span: 11 }}>
@@ -153,6 +254,7 @@ function UserProfile(props) {
                         autoComplete="off"
                       >
                         <Input
+                          autoComplete="off"
                           className="form-item "
                           placeholder="请输入你的姓名（选填）"
                         />
@@ -169,7 +271,7 @@ function UserProfile(props) {
                             <Col xs={11}>
                               <Radio.Button
                                 className="form-item"
-                                value={1}
+                                value={true}
                                 style={{ width: "100%" }}
                               >
                                 男生
@@ -178,7 +280,7 @@ function UserProfile(props) {
                             <Col xs={{ span: 11, offset: 1 }}>
                               <Radio.Button
                                 className="form-item"
-                                value={0}
+                                value={false}
                                 style={{ width: "100%" }}
                               >
                                 女生
@@ -211,13 +313,29 @@ function UserProfile(props) {
                     </Col>
                     {/* 手机号码 */}
                     <Col xs={24} sm={{ span: 11, offset: 2 }}>
-                      <Form.Item label="手机号" name="phone">
-                        <Input placeholder="请输入一个昵称" />
+                      <Form.Item
+                        label="手机号"
+                        name="phone"
+                        // rules={[{ type: "email" }]}
+                      >
+                        <Input
+                          className="form-item "
+                          autoComplete="off"
+                          placeholder="请输入手机号码"
+                        />
                       </Form.Item>
                     </Col>
                     {/* 邮箱 */}
                     <Col xs={24} sm={{ span: 11 }}>
-                      <Form.Item label="邮箱" name="email">
+                      <Form.Item
+                        label="邮箱"
+                        name="email"
+                        rules={[
+                          {
+                            type: "email",
+                          },
+                        ]}
+                      >
                         <Input
                           className="form-item "
                           placeholder="请输入邮箱"
@@ -227,7 +345,15 @@ function UserProfile(props) {
                     </Col>
                     {/* 个人介绍 */}
                     <Col xs={24}>
-                      <Form.Item label="编辑个人介绍" name="userLabel">
+                      <Form.Item
+                        label="编辑个人介绍"
+                        name="userLabel"
+                        rules={[
+                          {
+                            maxLength: 100,
+                          },
+                        ]}
+                      >
                         <Input.TextArea
                           className="form-item "
                           placeholder="简短介绍自己"
@@ -240,7 +366,7 @@ function UserProfile(props) {
                   <Form.Item style={{ marginTop: "15px" }}>
                     <Row justify="end" gutter={16}>
                       <Col>
-                        <Button type="default" htmlType="submit">
+                        <Button type="default" onClick={handleCancel}>
                           取消
                         </Button>
                       </Col>
@@ -257,7 +383,15 @@ function UserProfile(props) {
           </Card>
         </Col>
         <Col xs={0} md={{ span: 5, offset: 1 }}>
-          资料完成度
+          <Card
+            className="userprofile-card"
+            title="资料完成度"
+            hoverable
+            bodyStyle={{ textAlign: "center" }}
+            onClick={() => setIsEdit(true)}
+          >
+            <Progress width={75} type="circle" percent={percent} />
+          </Card>
         </Col>
       </Row>
     )
@@ -268,5 +402,6 @@ export default connect(
   {
     getProfileAction,
     getAreaAction,
+    updateProfileAction,
   }
 )(UserProfile);

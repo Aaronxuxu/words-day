@@ -5,7 +5,6 @@ import { message } from "antd";
 
 export const getAreaAction = (data) => {
   return async (dispatch) => {
-    console.log("1");
     const { status, info, districts } = await getArea({
       key: SCRECTKEYAREA,
       subdistrict: 2,

@@ -19,6 +19,10 @@ export const LOGOUT = "logout";
 // 获取用户信息
 export const GETUSERPROFILE = "getUserProfile";
 export const GETUSERSESSION = "getUserSession";
+export const CLEARALL = "clearAllUserInfo";
+
+// 更新用户相关业务
+export const UPDATEUSERPROFILE = "udpateUserProfile";
 
 // 高德地图省份API接口密钥
 export const SCRECTKEYAREA = "6e74ed68dc430cae5c59073e43d0239a";
@@ -40,3 +44,6 @@ export const DEEPMENU = function (target) {
     return a;
   }, []);
 };
+
+// 图片查看路径（分离与不分离区别）
+export const BASE_IMAGE_URL = "http://localhost:5000/upload";

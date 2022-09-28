@@ -1,7 +1,7 @@
 import { LOGIN, LOGOUT } from "../../uitil/constans";
 import { login, logout } from "../../api/axios";
-
 import cookie from "react-cookies";
+import qs from "query-string";
 
 // 登录
 export const loginAction = (data) => {
@@ -11,18 +11,30 @@ export const loginAction = (data) => {
       return Promise.reject(msg);
     } else {
       // 设置七天过期时间
-      cookie.save("userToken", result.token, {
+      cookie.save("userToken", qs.stringify(result), {
         expires: new Date(new Date().getTime() + 24 * 3600 * 1000 * 7),
       });
-      cookie.save("user Avatar", result.avatar, {
-        expires: new Date(new Date().getTime() + 24 * 3600 * 1000 * 7),
-      });
+
       dispatch({
         type: LOGIN,
         data: result,
       });
       return "ok";
     }
+  };
+};
+
+// 编辑后更新Token
+export const upadateTokenAction = (data) => {
+  return (dispatch) => {
+    // 设置七天过期时间
+    cookie.save("userToken", qs.stringify(data), {
+      expires: new Date(new Date().getTime() + 24 * 3600 * 1000 * 7),
+    });
+    dispatch({
+      type: LOGIN,
+      data: data,
+    });
   };
 };
 
@@ -34,7 +46,6 @@ export const logoutAction = () => {
       return Promise.reject(msg);
     }
     cookie.remove("userToken");
-    cookie.remove("userAvatar");
     dispatch({
       type: LOGOUT,
       data: null,

@@ -1,0 +1,22 @@
+.profile-upload {
+  position: relative;
+  display: block;
+  width: 75px;
+  margin: auto;
+}
+.profile-upload .profile-upload-avatar-hover {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  line-height: 75px;
+  top: 0;
+  left: 50%;
+  font-size: 35px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all ease 0.25s;
+  opacity: 0;
+}
+.profile-upload:hover .profile-upload-avatar-hover {
+  opacity: 1;
+}

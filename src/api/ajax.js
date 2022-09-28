@@ -2,8 +2,10 @@ import { message } from "antd";
 import axios from "axios";
 import { GET } from "../uitil/constans";
 import store from "../redux/store";
+import cookies from "react-cookies";
 
 axios.defaults.timeout = 5 * 1000;
+
 axios.interceptors.request.use((config) => {
   const token = store.getState().userToken.token;
   if (token !== null) {
@@ -20,6 +22,7 @@ function ajax(url, method = GET, data = {}) {
     } else {
       promise = axios.post(url, data);
     }
+
     promise
       .then((res) => {
         const { data } = res;
@@ -33,6 +36,7 @@ function ajax(url, method = GET, data = {}) {
         message.error(msg);
         if (status === 401) {
           window.location.href = "/";
+          cookies.remove("userToken");
         }
       });
   });

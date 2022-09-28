@@ -17,6 +17,19 @@ export const logout = (data) => ajax(`${BASEAPI}/user/logout`, GET, data);
 
 // 获取用户个人资料
 export const getUserProfile = () => ajax(`${BASEAPI}/user/detail`, GET);
+
+// 更新用户个人资料
+export const updateUserProfile = (data) =>
+  ajax(`${BASEAPI}/user/updateProfile`, POST, data);
+
+// 更新用户头像
+export const updateUserAvatar = (data) =>
+  ajax(`${BASEAPI}/user/updateAvatar`, POST, data);
+
+// 删除用户头像文件
+export const delAvatarFile = (data) =>
+  ajax(`${BASEAPI}/manage/img/delete`, POST, data);
+
 // 获取用户学习进度
 export const getUserSession = () => ajax(`${BASEAPI}/user/session`, GET);
 
