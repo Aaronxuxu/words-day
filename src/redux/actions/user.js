@@ -1,13 +1,12 @@
 import {
   GETUSERPROFILE,
-  GETUSERSESSION,
+  GETUSERCOURSE,
   UPDATEUSERPROFILE,
   CLEARALL,
-  LOGIN,
 } from "../../uitil/constans";
 import {
   getUserProfile,
-  getUserSession,
+  getUserCourse,
   updateUserAvatar,
   updateUserProfile,
   delAvatarFile,
@@ -17,6 +16,7 @@ import Moment from "moment";
 import { message } from "antd";
 import { upadateTokenAction } from "./userToken";
 import cookie from "react-cookies";
+
 // 获取个人资料
 export const getProfileAction = () => {
   return async (dispatch) => {
@@ -91,8 +91,6 @@ export const updateAvatarAction = (data) => {
     }
   };
 };
-
-export const getSessionAction = async () => {};
 
 // 退出登录清除所有用户信息
 export const clearAllUserInfoAction = () => ({ type: CLEARALL });

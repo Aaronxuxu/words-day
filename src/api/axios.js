@@ -31,7 +31,8 @@ export const delAvatarFile = (data) =>
   ajax(`${BASEAPI}/manage/img/delete`, POST, data);
 
 // 获取用户学习进度
-export const getUserSession = () => ajax(`${BASEAPI}/user/session`, GET);
+export const getUserCourse = (data) =>
+  ajax(`${BASEAPI}/user/course`, GET, data);
 
 // 添加词汇种类
 export const addTypeName = (data) =>

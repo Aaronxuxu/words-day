@@ -1,4 +1,9 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import {
+  legacy_createStore as createStore,
+  applyMiddleware,
+  combineReducers,
+} from "redux";
 import thunk from "redux-thunk";
 import WORDS from "./reducers/words";
 import formModal from "./reducers/formModal";
@@ -7,5 +12,5 @@ import user from "./reducers/user";
 import jsonpAPI from "./reducers/jsonpAPI";
 export default createStore(
   combineReducers({ WORDS, formModal, userToken, user, jsonpAPI }),
-  applyMiddleware(thunk)
+  composeWithDevTools(applyMiddleware(thunk))
 );

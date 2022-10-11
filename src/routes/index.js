@@ -37,7 +37,7 @@ export const routes = [
         icon: <SolutionOutlined />,
       },
       {
-        key: "/user/session/",
+        key: "/user/session/:key",
         element: lazy(() => import("../pages/User/UserSession")),
         label: "进度管理",
         icon: <ScheduleOutlined />,

@@ -76,7 +76,11 @@ function Header(props) {
           key: "info",
           icon: <UserOutlined />,
         },
-        { label: "筛选词汇", key: "words", icon: <SelectOutlined /> },
+        {
+          label: <Link to="user/session/all/">筛选词汇</Link>,
+          key: "words",
+          icon: <SelectOutlined />,
+        },
         {
           type: "divider",
         },
@@ -118,7 +122,7 @@ function Header(props) {
                 }
               ></Button>
             </Dropdown>
-          ) : ( 
+          ) : (
             <Button type="link" onClick={() => navigate("/login")}>
               登录
             </Button>

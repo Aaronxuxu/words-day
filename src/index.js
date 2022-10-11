@@ -15,13 +15,13 @@ moment.locale("zh-cn");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ConfigProvider locale={zhCN}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </ConfigProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ConfigProvider locale={zhCN}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ConfigProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { routes } from "../../routes/index";
 import UserNavLink from "../../components/UserNavLink";
 import { Row, Col, Avatar, Space } from "antd";
@@ -37,7 +37,12 @@ function User(props) {
           ></Avatar>
           <div className="user-left-nav">
             {menuItems.map((e) => (
-              <UserNavLink key={e.key} to={e.key}>
+              <UserNavLink
+                key={e.key}
+                to={
+                  e.key === "/user/session/:key" ? "/user/session/all" : e.key
+                }
+              >
                 <Space>
                   {e.icon}
                   {e.label}

@@ -4,13 +4,19 @@ import "./index.css";
 function UserNavLink(props) {
   const { to } = props;
   const { pathname } = useLocation();
+
   return (
     <NavLink
       {...props}
       className={({ isActive }) =>
         `userLink ${
-          ((to === "/user/profile/" && pathname === "/user") || isActive) &&
-          "userNavLink"
+          isActive
+            ? "userNavLink"
+            : to === "/user/profile/" && pathname === "/user"
+            ? "userNavLink"
+            : pathname.includes(to.split("/all")[0])
+            ? "userNavLink"
+            : ""
         }`
       }
     ></NavLink>
