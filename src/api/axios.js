@@ -34,6 +34,22 @@ export const delAvatarFile = (data) =>
 export const getUserCourse = (data) =>
   ajax(`${BASEAPI}/user/course`, GET, data);
 
+// 用户删除学习进度
+export const delUserCourse = (data) =>
+  ajax(`${BASEAPI}/user/delCourse`, POST, data);
+
+// 获取用户选择的课程数与全部课程数量
+export const getTypeAndUserType = () =>
+  ajax(`${BASEAPI}/user/getTypeAndUserType`, GET);
+
+// 用户更新课程进度
+export const updateUserCourse = (data) =>
+  ajax(`${BASEAPI}/user/updateCourse`, POST, data);
+
+// 用户重置课程进度
+export const resetUserCourse = (data) =>
+  ajax(`${BASEAPI}/user/resetCourse`, POST, data);
+
 // 添加词汇种类
 export const addTypeName = (data) =>
   ajax(`${BASEAPI}/wordType/add`, POST, data);

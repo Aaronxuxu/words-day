@@ -1,17 +1,27 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import SessionItem from "./SessionItem";
-import MyGaugeChart from "../../../components/MyGaugeChart";
-import { getUserCourse } from "../../../api/axios";
+import MyPercentChart from "../../../components/MyPercentChart";
+import { getUserCourse, getTypeAndUserType } from "../../../api/axios";
 import qs from "query-string";
 
 import throttle from "lodash/throttle";
 
-import { Row, Col, Radio, Space, message, Pagination, Spin, Empty } from "antd";
+import {
+  Typography,
+  Row,
+  Col,
+  Radio,
+  Space,
+  message,
+  Pagination,
+  Spin,
+  Empty,
+} from "antd";
 
 import { LoadingOutlined } from "@ant-design/icons";
 import "./index.css";
-
+const { Title } = Typography;
 const navItem = [
   { value: "all", label: "全部" },
   { value: "finished", label: "已完成" },
@@ -30,6 +40,8 @@ function UserSession() {
 
   const [result, setResult] = useState({});
 
+  const [typeLengthArr, setTypeLengthArr] = useState(null);
+
   const getCoursList = async () => {
     setLoading(true);
     let obj = {
@@ -45,6 +57,32 @@ function UserSession() {
     }
 
     setResult(result);
+  };
+
+  const getTypeLengthArr = async () => {
+    const { result, msg, status } = await getTypeAndUserType();
+    if (status === 1) {
+      setTypeLengthArr([0, 100]);
+      return message.error(msg);
+    }
+
+    return setTypeLengthArr(result);
+  };
+
+  const resetResult = (key, value) => {
+    if (key === "del") {
+      return setResult({
+        total: result.total - 1,
+        data: result.data.filter((e) => e._id !== value),
+      });
+    } else {
+      return setResult({
+        ...result,
+        data: result.data.map((e) =>
+          e._id === value.coursArr[0]._id ? value.coursArr[0] : e
+        ),
+      });
+    }
   };
 
   useEffect(() => {
@@ -68,6 +106,10 @@ function UserSession() {
     }),
     [changePage]
   );
+
+  useEffect(() => {
+    getTypeLengthArr();
+  }, []);
 
   return (
     <Row className="user-session">
@@ -104,7 +146,9 @@ function UserSession() {
             </div>
           )}
           {result.data && result.data.length > 0 ? (
-            result.data.map((e) => <SessionItem item={e} key={e._id} />)
+            result.data.map((e) => (
+              <SessionItem resetResult={resetResult} item={e} key={e._id} />
+            ))
           ) : (
             <Empty></Empty>
           )}
@@ -117,8 +161,9 @@ function UserSession() {
           onChange={handleChangePageNo}
         />
       </Col>
-      <Col xs={0} md={{ span: 7, offset: 1 }}>
-        {/* <MyGaugeChart></MyGaugeChart> */}
+      <Col xs={0} md={{ span: 7, offset: 1 }} style={{ textAlign: "center" }}>
+        <Title level={3}>总进度</Title>
+        {typeLengthArr !== null && <MyPercentChart item={typeLengthArr} />}
       </Col>
     </Row>
   );

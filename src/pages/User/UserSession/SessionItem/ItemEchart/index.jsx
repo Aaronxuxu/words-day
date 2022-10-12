@@ -4,7 +4,6 @@ import { TitleComponent, TooltipComponent } from "echarts/components";
 import { PieChart } from "echarts/charts";
 import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import "./index.css";
 
 echarts.use([
   TitleComponent,
@@ -38,7 +37,7 @@ function ItemEchart(props) {
     series: {
       name: "词汇数据占比",
       type: "pie",
-      radius: "80%",
+      radius: "70%",
       roseType: "radius",
       center: ["50%", "50%"],
       itemStyle: {
@@ -52,19 +51,26 @@ function ItemEchart(props) {
   };
 
   const ItemEchartRef = useRef();
+
   useEffect(() => {
     const cur = ItemEchartRef.current;
-    const myChart = echarts.init(cur);
+    let myChart = echarts.init(cur);
     myChart.setOption(option);
     window.addEventListener("resize", () => {
-      myChart.resize();
+      myChart && myChart.resize();
     });
     return () => {
-      myChart.dispose();
+      if (myChart) {
+        myChart.dispose();
+        myChart = undefined;
+      }
+      window.removeEventListener("resize", () => {
+        myChart && myChart.resize();
+      });
     };
   }, []);
 
-  return <div className="item-echart" ref={ItemEchartRef} />;
+  return <div className="w-echart" ref={ItemEchartRef} />;
 }
 
 export default ItemEchart;

@@ -1,5 +1,6 @@
 import React from "react";
 import _pick from "lodash/pick";
+import { delUserCourse, resetUserCourse } from "../../../../api/axios";
 
 import {
   Statistic,
@@ -11,32 +12,43 @@ import {
   Col,
   Typography,
   Tag,
+  Progress,
+  message,
 } from "antd";
 import ItemEchart from "./ItemEchart";
 import dayjs from "dayjs";
 import IconFont from "../../../../uitil/IconFont";
 import "./index.css";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+
 const { confirm } = Modal;
 const { Title } = Typography;
 function SessionItem(props) {
-  const { item } = props;
-  console.log(item);
+  const { item, resetResult } = props;
+  const wordName = {
+    words: "单词",
+    phrases: "短语",
+    fixedcol: "固定搭配",
+    examplesentence: "真题例句",
+  };
+
   const pickPer = _pick(item, [
     "words",
     "phrases",
     "fixedcol",
     "examplesentence",
   ]);
+
   const handleShow = () => {
-    console.log(1);
+    // console.log(pickPer);
   };
+
   const handleBtnClick = (e, key) => {
     e.stopPropagation();
     let choseKey = {
       reset: {
         title: "是否重置学习进度？",
-        content: "重置后进度为 0！",
+        content: "重置后进度为 0",
       },
       del: {
         title: "是否取消该课程？",
@@ -48,61 +60,85 @@ function SessionItem(props) {
       icon: <ExclamationCircleOutlined />,
       content: choseKey[key].content,
       maskClosable: true,
-      onOk() {
-        console.log("OK");
+      async onOk() {
+        const { _id } = item;
+        let promise;
+        if (key === "del") {
+          promise = await delUserCourse({
+            id: _id,
+          });
+        } else {
+          const obj = {
+            typeid: item.typeid[0]._id,
+            words: [],
+            fixedcol: [],
+            phrases: [],
+            examplesentence: [],
+          };
+          promise = await resetUserCourse(obj);
+        }
+        const { result, msg, status } = promise;
+        console.log(result);
+        if (status === 1) {
+          return message.error(msg);
+        }
+        message.success(key === "del" ? "删除成功" : "重置成功");
+        return resetResult(key, result);
       },
     });
   };
+
   return (
-    <Row justify="end" className="sessionList-Item">
+    <Row justify="end" className="sessionList-Item" onClick={handleShow}>
       <Col xs={24} md={{ span: 14 }}>
-        <Space direction="vertical">
-          {/* 标题 */}
-          <Title level={3}>{item.typeid[0].ctypeName}</Title>
-          {/* 创建结束时间，是否已完成 */}
+        <div className="item-desc">
+          <div>
+            {/* 标题 */}
+            <Title level={3}>{item.typeid[0].ctypeName}</Title>
+            {/* 创建结束时间，是否已完成 */}
+            <Space
+              align="center"
+              size={15}
+              wrap={true}
+              split={<Divider type="vertical" />}
+            >
+              <span>创建时间：{dayjs(item.createTime).format("YYYY-MM")}</span>
+              <Tag color={item.isFinish ? "success" : "error"}>
+                {item.isFinish ? "已完成" : "未完成"}
+              </Tag>
+            </Space>
+          </div>
+
+          {/* 各分类完成百分比 */}
           <Space
             align="center"
             size={15}
             wrap={true}
             split={<Divider type="vertical" />}
+            style={{ textAlign: "center" }}
           >
-            <span>创建时间：{dayjs(item.createTime).format("YYYY-MM")}</span>
-            <Tag color={item.isFinish ? "success" : "error"}>
-              {item.isFinish ? "已完成" : "未完成"}
-            </Tag>
+            {Object.keys(pickPer).map((e) => (
+              <div key={e}>
+                <Statistic
+                  title={wordName[e]}
+                  value={pickPer[e].wArr.length}
+                  suffix={`/ ${pickPer[e].number}`}
+                  valueStyle={{ fontSize: "16px" }}
+                />
+                <Progress
+                  showInfo={false}
+                  size="small"
+                  percent={
+                    Number(
+                      (pickPer[e].wArr.length / pickPer[e].number).toFixed(2)
+                    ) * 100
+                  }
+                />
+              </div>
+            ))}
           </Space>
-          {/* 完成百分比 */}
-          <Space
-            align="center"
-            size={15}
-            wrap={true}
-            split={<Divider type="vertical" />}
-          >
-            <Statistic
-              title="单词"
-              value={item.words.wArr.length}
-              suffix={`/ ${item.words.number}`}
-              valueStyle={{ fontSize: "16px" }}
-            />
-            <Statistic
-              title="短语"
-              value={item.phrases.wArr.length}
-              suffix={`/ ${item.phrases.number}`}
-              valueStyle={{ fontSize: "16px" }}
-            />
-            <Statistic
-              title="真题例句"
-              value={item.examplesentence.wArr.length}
-              suffix={`/ ${item.examplesentence.number}`}
-              valueStyle={{ fontSize: "16px" }}
-            />
-            <Statistic
-              title="固定搭配"
-              value={item.fixedcol.wArr.length}
-              suffix={`/ ${item.fixedcol.number}`}
-              valueStyle={{ fontSize: "16px" }}
-            />
-          </Space>
+
+          {/* 重置进度/删除课程 */}
           <Space
             align="center"
             size={15}
@@ -126,7 +162,7 @@ function SessionItem(props) {
               删除
             </Button>
           </Space>
-        </Space>
+        </div>
       </Col>
       <Col xs={24} md={{ span: 8, offset: 2 }}>
         <ItemEchart pickPer={pickPer} />

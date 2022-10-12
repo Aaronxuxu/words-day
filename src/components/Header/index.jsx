@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -11,6 +11,8 @@ import {
   Menu,
   Dropdown,
   notification,
+  Space,
+  Drawer,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
@@ -18,6 +20,7 @@ import {
   UserOutlined,
   SelectOutlined,
   LogoutOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import { openModal } from "../../redux/actions/formModal";
 import { logoutAction } from "../../redux/actions/userToken";
@@ -35,10 +38,7 @@ function Header(props) {
     userToken: { userAvatar },
   } = props;
   const navigate = useNavigate();
-
-  const handleReset = () => {
-    return navigate("/getword");
-  };
+  const [open, setOpen] = useState(false);
 
   const handleClick = ({ key }) => {
     if (key === "logout") {
@@ -67,6 +67,8 @@ function Header(props) {
     }
   };
 
+  const handleNav = () => {};
+
   const menu = (
     <Menu
       onClick={handleClick}
@@ -77,7 +79,7 @@ function Header(props) {
           icon: <UserOutlined />,
         },
         {
-          label: <Link to="user/session/all/">筛选词汇</Link>,
+          label: <Link to="user/session/all/">进度管理</Link>,
           key: "words",
           icon: <SelectOutlined />,
         },
@@ -88,21 +90,95 @@ function Header(props) {
       ]}
     ></Menu>
   );
+  const headerNav = [
+    {
+      key: "/",
+      label: "首页",
+    },
+    {
+      key: "/course/",
+      label: "学习",
+    },
+    {
+      key: "/depot/",
+      label: "词汇库",
+    },
+  ];
 
+  const showDrawer = () => {
+    console.log(1);
+    setOpen(true);
+  };
+  const mobileNav = (path) => {
+    setOpen(false);
+    return navigate(path);
+  };
   return (
     <Affix offsetTop={0}>
       <Row className="wd-header" align="middle" justify="space-between">
-        <Col sm={0}>
-          <Button type="text" onClick={() => openModal()}>
-            <AlignCenterOutlined />
-          </Button>
+        <Col>
+          <Row>
+            <Col xs={24} sm={0}>
+              <Button
+                type="text"
+                size="large"
+                icon={<AlignCenterOutlined></AlignCenterOutlined>}
+                onClick={showDrawer}
+              />
+              <Drawer
+                width={"65%"}
+                placement="left"
+                onClose={() => setOpen(false)}
+                visible={open}
+                closable={false}
+                headerStyle={{ borderBottom: "none", paddingBottom: "0" }}
+                bodyStyle={{ paddingTop: "0" }}
+                title={
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "end",
+                    }}
+                  >
+                    <Button
+                      onClick={() => setOpen(false)}
+                      size="large"
+                      type="text"
+                      icon={<CloseOutlined />}
+                    />
+                  </div>
+                }
+              >
+                {headerNav.map((e) => (
+                  <Button
+                    key={e.key}
+                    block
+                    type="text"
+                    onClick={() => mobileNav(e.key)}
+                    size="large"
+                    style={{ fontWeight: 700, fontSize: "20px" }}
+                  >
+                    {e.label}
+                  </Button>
+                ))}
+              </Drawer>
+            </Col>
+            <Col xs={0} sm={24}>
+              <Space>
+                {headerNav.map((e) => (
+                  <Button
+                    type="text"
+                    key={e.key}
+                    onClick={() => navigate(e.key)}
+                  >
+                    {e.label}
+                  </Button>
+                ))}
+              </Space>
+            </Col>
+          </Row>
         </Col>
-        <Col sm={0}>
-          <Button type="text" onClick={handleReset}>
-            重置
-          </Button>
-        </Col>
-        <Col sm={{ span: 2, offset: 22 }}>
+        <Col>
           {userToken.token ? (
             <Dropdown
               placement="bottomRight"
