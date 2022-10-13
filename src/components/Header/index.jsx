@@ -14,18 +14,17 @@ import {
   Space,
   Drawer,
 } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
-  AlignCenterOutlined,
   UserOutlined,
   SelectOutlined,
   LogoutOutlined,
-  CloseOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { openModal } from "../../redux/actions/formModal";
 import { logoutAction } from "../../redux/actions/userToken";
 import { clearAllUserInfoAction } from "../../redux/actions/user";
 import { BASE_IMAGE_URL } from "../../uitil/constans";
+import HeaderXsNav from "./HeaderXsNav";
 import "./index.css";
 
 const { confirm } = Modal;
@@ -37,6 +36,7 @@ function Header(props) {
     clearAllUserInfoAction,
     userToken: { userAvatar },
   } = props;
+
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -67,8 +67,6 @@ function Header(props) {
     }
   };
 
-  const handleNav = () => {};
-
   const menu = (
     <Menu
       onClick={handleClick}
@@ -90,6 +88,7 @@ function Header(props) {
       ]}
     ></Menu>
   );
+
   const headerNav = [
     {
       key: "/",
@@ -100,109 +99,58 @@ function Header(props) {
       label: "学习",
     },
     {
-      key: "/depot/",
+      key: "/depots/",
       label: "词汇库",
     },
   ];
 
-  const showDrawer = () => {
-    console.log(1);
-    setOpen(true);
-  };
-  const mobileNav = (path) => {
-    setOpen(false);
-    return navigate(path);
-  };
   return (
     <Affix offsetTop={0}>
-      <Row className="wd-header" align="middle" justify="space-between">
-        <Col>
-          <Row>
-            <Col xs={24} sm={0}>
-              <Button
-                type="text"
-                size="large"
-                icon={<AlignCenterOutlined></AlignCenterOutlined>}
-                onClick={showDrawer}
-              />
-              <Drawer
-                width={"65%"}
-                placement="left"
-                onClose={() => setOpen(false)}
-                visible={open}
-                closable={false}
-                headerStyle={{ borderBottom: "none", paddingBottom: "0" }}
-                bodyStyle={{ paddingTop: "0" }}
-                title={
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "end",
-                    }}
-                  >
-                    <Button
-                      onClick={() => setOpen(false)}
-                      size="large"
-                      type="text"
-                      icon={<CloseOutlined />}
-                    />
-                  </div>
-                }
-              >
-                {headerNav.map((e) => (
-                  <Button
-                    key={e.key}
-                    block
-                    type="text"
-                    onClick={() => mobileNav(e.key)}
-                    size="large"
-                    style={{ fontWeight: 700, fontSize: "20px" }}
-                  >
-                    {e.label}
-                  </Button>
-                ))}
-              </Drawer>
-            </Col>
-            <Col xs={0} sm={24}>
-              <Space>
-                {headerNav.map((e) => (
-                  <Button
-                    type="text"
-                    key={e.key}
-                    onClick={() => navigate(e.key)}
-                  >
-                    {e.label}
-                  </Button>
-                ))}
-              </Space>
-            </Col>
-          </Row>
+      <Row className="wd-header" align="middle">
+        <Col xs={24} sm={0}>
+          <HeaderXsNav handleClick={handleClick} userToken={userToken} />
         </Col>
-        <Col>
-          {userToken.token ? (
-            <Dropdown
-              placement="bottomRight"
-              overlay={menu}
-              trigger={["click", "hover"]}
-              arrow={{
-                pointAtCenter: true,
-              }}
-            >
-              <Button
-                type="link"
-                size="large"
-                icon={
-                  <Avatar
-                    src={userAvatar !== null ? BASE_IMAGE_URL + userAvatar : ""}
-                  ></Avatar>
-                }
-              ></Button>
-            </Dropdown>
-          ) : (
-            <Button type="link" onClick={() => navigate("/login")}>
-              登录
-            </Button>
-          )}
+        <Col xs={0} sm={{ span: 20, offset: 2 }}>
+          <div className="wd-header-sm-nav">
+            <Space>
+              {headerNav.map((e) => (
+                <Button
+                  style={{ color: "black" }}
+                  type="link"
+                  key={e.key}
+                  onClick={() => navigate(e.key)}
+                >
+                  {e.label}
+                </Button>
+              ))}
+            </Space>
+            {userToken.token ? (
+              <Dropdown
+                placement="bottomRight"
+                overlay={menu}
+                trigger={["click", "hover"]}
+                arrow={{
+                  pointAtCenter: true,
+                }}
+              >
+                <Button
+                  type="link"
+                  size="large"
+                  icon={
+                    <Avatar
+                      src={
+                        userAvatar !== null ? BASE_IMAGE_URL + userAvatar : ""
+                      }
+                    ></Avatar>
+                  }
+                ></Button>
+              </Dropdown>
+            ) : (
+              <Button type="link" onClick={() => navigate("/login")}>
+                登录
+              </Button>
+            )}
+          </div>
         </Col>
       </Row>
     </Affix>

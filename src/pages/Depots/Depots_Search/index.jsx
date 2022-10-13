@@ -20,7 +20,7 @@ const checkOption = [
   { label: "真题例句", value: "examplesentence" },
 ];
 
-function GetWordSearch(props) {
+function DepotsSearch(props) {
   const { WORDS } = props;
   const [searchVal, setSearchVal] = useState();
   const [radioValue, setRadioValue] = useState();
@@ -123,5 +123,5 @@ function GetWordSearch(props) {
 }
 
 export default connect((state) => ({ WORDS: state.WORDS }), { openModal })(
-  GetWordSearch
+  DepotsSearch
 );

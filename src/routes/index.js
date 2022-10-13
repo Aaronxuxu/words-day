@@ -2,23 +2,38 @@ import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { SolutionOutlined, ScheduleOutlined } from "@ant-design/icons";
 export const routes = [
+  // 404页面
   { key: "*", element: lazy(() => import("../components/404")) },
+  // 首页
+  {
+    key: "",
+    element: lazy(() => import("../pages/Depots")),
+    label: "首页",
+    index: 1,
+  },
+  // 词汇库页
+  {
+    key: "depots/",
+    element: lazy(() => import("../pages/Depots")),
+  },
+  // 学习页
+  {
+    key: "course/",
+    element: lazy(() => import("../pages/Course")),
+  },
+  // 待删除，转为后台添加数据
   {
     key: "addword/",
     element: lazy(() => import("../pages/AddWord")),
     label: "添加单词",
   },
-  {
-    key: "",
-    element: lazy(() => import("../pages/GetWord")),
-    label: "首页",
-    index: 1,
-  },
+  // 登录页面
   {
     key: "login/",
     element: lazy(() => import("../pages/UserLogin")),
     label: "登录",
   },
+  // 用户相关页面
   {
     key: "user/",
     element: lazy(() => import("../pages/User")),

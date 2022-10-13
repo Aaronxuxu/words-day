@@ -1,0 +1,12 @@
+.headerNav-Btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.wd-header-sm-nav {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,12 +1,10 @@
-import React, { Suspense, useEffect, lazy } from "react";
+import React, { Suspense, useEffect } from "react";
 import { connect } from "react-redux";
 import "./App.css";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, useLocation, useNavigate } from "react-router-dom";
 import { mapRoutes } from "./routes";
 import Header from "./components/Header";
 import { BackTop, notification } from "antd";
-
-const GetWord = lazy(() => import("./pages/GetWord"));
 
 function App(props) {
   const { token } = props;
@@ -33,10 +31,7 @@ function App(props) {
       <Header></Header>
       <div className="wd-routes">
         <Suspense fallback={<>加载中</>}>
-          <Routes>
-            <Route index element={<GetWord />}></Route>
-            {mapRoutes.map((e) => e)}
-          </Routes>
+          <Routes>{mapRoutes.map((e) => e)}</Routes>
         </Suspense>
       </div>
       <BackTop />

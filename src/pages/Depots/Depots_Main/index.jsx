@@ -5,7 +5,7 @@ import { Pagination, Card, List, Spin } from "antd";
 import qs from "query-string";
 import MainModal from "./Main_Modal";
 import "./index.css";
-function GetWordMain(props) {
+function DepotsMain(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalVal, setModalVal] = useState({});
@@ -92,4 +92,4 @@ export default connect(
     WORDS: state.WORDS,
   }),
   {}
-)(GetWordMain);
+)(DepotsMain);

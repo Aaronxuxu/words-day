@@ -17,7 +17,9 @@ echarts.use([
 
 function MyPercentChart(props) {
   const { item = [0, 100] } = props;
+
   const percent = parseFloat((item[0] / item[1]).toFixed(2)) * 100;
+
   const PercentChart = useRef();
   const option = {
     title: {
@@ -61,7 +63,7 @@ function MyPercentChart(props) {
 
     myChart = echarts.init(PercentChart.current);
 
-    myChart.setOption(option);
+    myChart.setOption(option, true);
 
     window.addEventListener("resize", () => {
       myChart && myChart.resize();
@@ -77,7 +79,7 @@ function MyPercentChart(props) {
         myChart && myChart.resize();
       });
     };
-  }, []);
+  }, [item]);
 
   return <div className="w-echart" ref={PercentChart}></div>;
 }

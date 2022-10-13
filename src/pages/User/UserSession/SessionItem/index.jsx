@@ -45,6 +45,7 @@ function SessionItem(props) {
 
   const handleBtnClick = (e, key) => {
     e.stopPropagation();
+
     let choseKey = {
       reset: {
         title: "是否重置学习进度？",
@@ -69,7 +70,7 @@ function SessionItem(props) {
           });
         } else {
           const obj = {
-            typeid: item.typeid[0]._id,
+            _id: item._id,
             words: [],
             fixedcol: [],
             phrases: [],
@@ -78,7 +79,6 @@ function SessionItem(props) {
           promise = await resetUserCourse(obj);
         }
         const { result, msg, status } = promise;
-        console.log(result);
         if (status === 1) {
           return message.error(msg);
         }

@@ -6,7 +6,7 @@ import { getUserCourse, getTypeAndUserType } from "../../../api/axios";
 import qs from "query-string";
 
 import throttle from "lodash/throttle";
-
+import _pick from "lodash/pick";
 import {
   Typography,
   Row,
@@ -71,16 +71,22 @@ function UserSession() {
 
   const resetResult = (key, value) => {
     if (key === "del") {
+      getTypeLengthArr();
       return setResult({
         total: result.total - 1,
         data: result.data.filter((e) => e._id !== value),
       });
     } else {
+      const { _id } = value;
+      const obj = _pick(value, [
+        "examplesentence",
+        "fixedcol",
+        "phrases",
+        "words",
+      ]);
       return setResult({
         ...result,
-        data: result.data.map((e) =>
-          e._id === value.coursArr[0]._id ? value.coursArr[0] : e
-        ),
+        data: result.data.map((e) => (e._id === _id ? { ...e, ...obj } : e)),
       });
     }
   };
