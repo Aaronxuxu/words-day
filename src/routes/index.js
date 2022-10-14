@@ -20,6 +20,16 @@ export const routes = [
   {
     key: "course/",
     element: lazy(() => import("../pages/Course")),
+    children: [
+      {
+        key: "detail/:cID",
+        element: lazy(() => import("../pages/Course/Course_Detail")),
+      },
+      {
+        key: "read/:cID",
+        element: lazy(() => import("../pages/Course/Course_Read")),
+      },
+    ],
   },
   // 待删除，转为后台添加数据
   {

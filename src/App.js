@@ -5,7 +5,7 @@ import { Routes, useLocation, useNavigate } from "react-router-dom";
 import { mapRoutes } from "./routes";
 import Header from "./components/Header";
 import { BackTop, notification } from "antd";
-
+import LoginModal from "./components/LoginModal";
 function App(props) {
   const { token } = props;
   const { pathname } = useLocation();
@@ -34,6 +34,7 @@ function App(props) {
           <Routes>{mapRoutes.map((e) => e)}</Routes>
         </Suspense>
       </div>
+      <LoginModal />
       <BackTop />
     </div>
   );
