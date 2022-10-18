@@ -132,7 +132,7 @@ function UserProfile(props) {
       <Row className="userprofile">
         <Col xs={24} md={18}>
           <Card
-            className="userprofile-card"
+            className="userprofile-card w-border"
             bordered={false}
             bodyStyle={{ padding: "0 0 30px", borderTop: "1px solid #f0f0f0" }}
             title={
@@ -143,7 +143,7 @@ function UserProfile(props) {
             }
           >
             {!isEdit ? (
-              <Row className="userprofile-card-fw userprofile-card-Info">
+              <Row className="userprofile-card-fw userprofile-card-Info box-shadow-hover">
                 <Col xs={24} sm={{ span: 18 }} onClick={() => setIsEdit(true)}>
                   <div className="userprofile-card-info-title">
                     <div className="userprofile-card-info-userName-main">
@@ -384,7 +384,7 @@ function UserProfile(props) {
         </Col>
         <Col xs={0} md={{ span: 5, offset: 1 }}>
           <Card
-            className="userprofile-card"
+            className="w-border"
             title="资料完成度"
             hoverable
             bodyStyle={{ textAlign: "center" }}

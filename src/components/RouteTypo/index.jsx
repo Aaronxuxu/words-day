@@ -25,10 +25,11 @@ const adminImage = () => (
     </span>
   </Space>
 );
+
 function RouteTypo(props) {
   const { context } = props;
   return (
-    <div className="routeType">
+    <div className="routeType w-border">
       <Title level={3}>
         <Space>
           介绍

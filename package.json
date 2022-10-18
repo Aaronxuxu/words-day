@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.22.8",
     "antd-img-crop": "^4.2.4",
+    "antd-mobile": "^5.24.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
     "echarts": "^5.4.0",

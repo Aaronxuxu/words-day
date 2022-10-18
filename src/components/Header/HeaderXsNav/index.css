@@ -1,3 +1,18 @@
+.headerXs-title {
+  display: -moz-box !important; /* Firefox 17- */
+  display: -webkit-flex !important; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+  display: -moz-flex !important; /* Firefox 18+ */
+  display: -ms-flexbox !important;
+  display: flex !important;
+
+  -webkit-box-pack: flex-end !important;
+  -ms-justify-content: flex-end !important;
+  -moz-justify-content: flex-end !important;
+  -o-justify-content: flex-end !important;
+  -webkit-justify-content: flex-end !important;
+  justify-content: flex-end !important;
+}
+
 .headerNav-Btn {
   display: flex;
   justify-content: space-between;

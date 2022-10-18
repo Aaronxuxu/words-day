@@ -73,8 +73,11 @@ export const getTypeByName = (obj) =>
     count: obj.count,
   });
 
-// API请求
+// 根据词汇词表获取分类
+export const getTypeByGrade = (obj) =>
+  ajax(`${BASEAPI}/wordType/Grade`, GET, obj);
 
+// API请求  
 // 获取省份市区
 export const getArea = (obj) =>
   webAPI("https://restapi.amap.com/v3/config/district", obj);

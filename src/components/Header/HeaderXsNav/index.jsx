@@ -67,12 +67,7 @@ function HeaderXsNav(props) {
           justifyContent: "space-between",
         }}
         title={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "end",
-            }}
-          >
+          <div className="headerXs-title">
             <Button
               onClick={() => setOpen(false)}
               size="large"

@@ -1,10 +1,6 @@
 .userprofile {
   text-align: left;
 }
-.userprofile-card {
-  box-shadow: rgb(0 0 0 / 4%) 0px 1px 3px, rgb(0 0 0 / 12%) 0px 6px 16px;
-  border-radius: 10px;
-}
 
 .userprofile-card-fw {
   padding: 24px 24px;
@@ -14,11 +10,6 @@
   transition: all ease 0.2s;
 }
 
-.userprofile-card-Info:hover {
-  box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f,
-    0 5px 12px 4px #00000017;
-  cursor: pointer;
-}
 .userprofile-card-Info-editBtn {
   margin-top: 15px;
   opacity: 0;
@@ -27,6 +18,7 @@
 .userprofile-card-Info:hover .userprofile-card-Info-editBtn {
   opacity: 1;
 }
+
 .userprofile-card-info-title {
   display: flex;
   justify-content: flex-start;

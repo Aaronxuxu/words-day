@@ -1,6 +1,6 @@
 import { CLOSE, OPEN } from "../../uitil/constans";
 
-function loginModal(prev = 0, action) {
+function loginModal(prev = false, action) {
   const { type, data } = action;
 
   switch (type) {

@@ -9,25 +9,23 @@
   }
 }
 
-.loginModal .loginModal-mask {
+.loginModal {
+  display: flex;
   position: fixed;
+  justify-content: center;
+  align-items: center;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10000;
+  z-index: 2;
 }
+
 .loginModal .loginModal-body {
-  position: absolute;
-  top: 50%;
-  left: 50%;
   padding: 15px 18px;
-  transform: translate(-50%, -50%);
-  z-index: 20000;
   background-color: #fff;
   border-radius: 21px;
-  transition: all ease 0.5s;
 }
 
 .loginModal .loginModal-body .loginModal-body-title {

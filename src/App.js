@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import { BackTop, notification } from "antd";
 import LoginModal from "./components/LoginModal";
 function App(props) {
-  const { token } = props;
+  const { token, isLogin } = props;
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -34,10 +34,13 @@ function App(props) {
           <Routes>{mapRoutes.map((e) => e)}</Routes>
         </Suspense>
       </div>
-      <LoginModal />
+      {isLogin && <LoginModal />}
       <BackTop />
     </div>
   );
 }
 
-export default connect((state) => ({ token: state.userToken.token }), {})(App);
+export default connect(
+  (state) => ({ token: state.userToken.token, isLogin: state.loginModal }),
+  {}
+)(App);

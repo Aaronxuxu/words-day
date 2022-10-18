@@ -89,7 +89,11 @@ function SessionItem(props) {
   };
 
   return (
-    <Row justify="end" className="sessionList-Item" onClick={handleShow}>
+    <Row
+      justify="end"
+      className="sessionList-Item box-shadow-hover"
+      onClick={handleShow}
+    >
       <Col xs={24} md={{ span: 14 }}>
         <div className="item-desc">
           <div>

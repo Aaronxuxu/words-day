@@ -56,7 +56,7 @@ function DepotsMain(props) {
                 }
               >
                 <Card
-                  hoverable={true}
+                  className="box-shadow-hover"
                   bordered={false}
                   bodyStyle={{ padding: "50px 24px", fontSize: "16px" }}
                 >

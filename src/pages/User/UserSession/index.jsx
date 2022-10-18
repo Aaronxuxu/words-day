@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import SessionItem from "./SessionItem";
 import MyPercentChart from "../../../components/MyPercentChart";
@@ -135,7 +135,7 @@ function UserSession() {
             </Space>
           </Radio.Group>
         </div>
-        <div className="user-session-left-main">
+        <div className="user-session-left-main w-border">
           {Loading && (
             <div className="user-session-left-main-loading">
               <Spin
