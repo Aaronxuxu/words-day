@@ -1,0 +1,15 @@
+.mysummary {
+  width: 90%;
+  margin: 25px auto;
+  padding: 12px 18px;
+  background-color: #fff;
+}
+.mysummary-title {
+  padding: 15px 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+.mysummary-main {
+  font-size: 16px;
+}

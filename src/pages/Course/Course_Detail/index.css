@@ -1,0 +1,15 @@
+.course-detail-bread {
+  /* padding: 16px 0; */
+}
+
+.detail-container-extra-tips {
+  text-align: center;
+}
+.detail-container-extra-button {
+  font-size: 18px;
+}
+
+.course-detail-catalog-loading {
+  padding: 100px;
+  text-align: center;
+}

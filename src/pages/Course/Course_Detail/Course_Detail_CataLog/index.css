@@ -1,0 +1,13 @@
+.cataLog {
+  background-color: #fff;
+}
+.catalog-list-item {
+  font-size: 1rem;
+  padding: 12px 24px;
+}
+
+.catalog-list-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

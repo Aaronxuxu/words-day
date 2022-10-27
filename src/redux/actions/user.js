@@ -1,12 +1,10 @@
 import {
   GETUSERPROFILE,
-  GETUSERCOURSE,
   UPDATEUSERPROFILE,
   CLEARALL,
 } from "../../uitil/constans";
 import {
   getUserProfile,
-  getUserCourse,
   updateUserAvatar,
   updateUserProfile,
   delAvatarFile,

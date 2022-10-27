@@ -34,11 +34,8 @@ function LoginModal(props) {
     let w = start > end;
 
     intervalOptRef.current = setInterval(() => {
-      if (w) {
-        result = Math.floor((end - start) / 5);
-      } else {
-        result = Math.ceil((end - start) / 5);
-      }
+      result = (end - start) / 10;
+      result = w ? Math.floor(result) : Math.ceil(result);
 
       start = result + start;
 
@@ -49,7 +46,7 @@ function LoginModal(props) {
         }
         return clearInterval(intervalOptRef.current);
       }
-    }, 20);
+    }, 1);
   };
 
   // 移动数值
@@ -69,11 +66,8 @@ function LoginModal(props) {
     let w = start > end;
 
     intervalTransRef.current = setInterval(() => {
-      if (w) {
-        result = Math.floor((end - start) / 4);
-      } else {
-        result = Math.ceil((end - start) / 4);
-      }
+      result = (end - start) / 10;
+      result = w ? Math.floor(result) : Math.ceil(result);
 
       start = result + start;
 
@@ -81,7 +75,7 @@ function LoginModal(props) {
       if (end === start) {
         return clearInterval(intervalTransRef.current);
       }
-    }, 20);
+    }, 1);
   };
 
   // 关闭弹窗
@@ -122,7 +116,7 @@ function LoginModal(props) {
     <div className="loginModal" style={{ opacity: opa }}>
       <div
         className="loginModal-body"
-        style={{ transform: `translateY(${trans}px)`, opacity: opa }}
+        style={{ transform: `translateY(${trans}px)` }}
       >
         <div className="loginModal-body-title">
           {/* 图片位置，待修改上线修改路径 */}

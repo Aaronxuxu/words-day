@@ -71,10 +71,11 @@ function UserSession() {
 
   const resetResult = (key, value) => {
     if (key === "del") {
+      const { id } = value;
       getTypeLengthArr();
       return setResult({
         total: result.total - 1,
-        data: result.data.filter((e) => e._id !== value),
+        data: result.data.filter((e) => e.typeid[0]._id !== id),
       });
     } else {
       const { _id } = value;

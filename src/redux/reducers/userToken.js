@@ -6,7 +6,9 @@ const init = {
   token: cookieInfo.token || null,
   userName: cookieInfo.userName || null,
   userAvatar: cookieInfo.userAvatar || null,
+  userID: cookieInfo.userID || null,
 };
+
 function userInfo(prev = init, actions) {
   const { type, data } = actions;
   switch (type) {
@@ -17,6 +19,7 @@ function userInfo(prev = init, actions) {
         token: null,
         userName: null,
         userAvatar: null,
+        userID: null,
       };
     default:
       return prev;

@@ -3,12 +3,20 @@
   min-height: 100%;
   background-color: #f7f8fa;
 }
-.wd-routes {
-  max-width: 1250px;
-  min-height: calc(100vh - 65px);
-  margin: auto;
-  padding: 0 15px 15px;
+.wd-header {
+  padding: 5px 15px;
+  background-color: #fff;
+  text-align: left;
 }
+
+.wd-routes {
+  /* position: relative; */
+  max-width: 1250px;
+  min-height: var(--main-min-height);
+  margin: auto;
+  padding: 15px 15px;
+}
+
 .w-echart {
   width: 100%;
 }
@@ -16,6 +24,33 @@
 .w-border {
   border-radius: 10px !important;
   box-shadow: rgb(0 0 0 / 4%) 0px 1px 3px, rgb(0 0 0 / 12%) 0px 6px 16px !important;
+}
+
+.w-marginBottom {
+  margin-bottom: 15px !important;
+}
+
+.w-marginTop {
+  margin-top: 15px !important;
+}
+
+.w-padding {
+  padding: 15px 25px;
+}
+
+.w-button {
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 1px solid #eaf0ea;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.w-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* position: relative; */
 }
 
 @media screen and (max-width: 768px) {
@@ -37,7 +72,30 @@
     cursor: pointer;
   }
   .scale-hover:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     cursor: pointer;
+  }
+  .button-hover:hover {
+    cursor: pointer;
+    background-color: #f7f7f7;
+  }
+}
+
+/* 媒体查询移动端与pc端显示不同组件 */
+@media screen and (max-width: 576px) {
+  .mobile {
+    display: block;
+  }
+  .pc {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .mobile {
+    display: none;
+  }
+  .pc {
+    display: block;
   }
 }

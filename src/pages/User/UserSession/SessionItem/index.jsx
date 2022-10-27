@@ -62,15 +62,16 @@ function SessionItem(props) {
       content: choseKey[key].content,
       maskClosable: true,
       async onOk() {
-        const { _id } = item;
         let promise;
+
         if (key === "del") {
           promise = await delUserCourse({
-            id: _id,
+            id: item.typeid[0]._id,
           });
         } else {
+          const { _id } = item;
           const obj = {
-            _id: item._id,
+            _id: _id,
             words: [],
             fixedcol: [],
             phrases: [],

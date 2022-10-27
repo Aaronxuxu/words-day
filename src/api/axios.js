@@ -34,6 +34,10 @@ export const delAvatarFile = (data) =>
 export const getUserCourse = (data) =>
   ajax(`${BASEAPI}/user/course`, GET, data);
 
+// 用户添加课程
+export const addUserCourse = (obj) =>
+  ajax(`${BASEAPI}/user/addCourse`, POST, obj);
+
 // 用户删除学习进度
 export const delUserCourse = (data) =>
   ajax(`${BASEAPI}/user/delCourse`, POST, data);
@@ -77,7 +81,18 @@ export const getTypeByName = (obj) =>
 export const getTypeByGrade = (obj) =>
   ajax(`${BASEAPI}/wordType/Grade`, GET, obj);
 
-// API请求  
+// 根据ID获取词汇分类
+export const getTypeByID = (obj) => ajax(`${BASEAPI}/wordType/id`, GET, obj);
+
+// 获取词汇详情
+export const getCourseDetail = (obj) =>
+  ajax(`${BASEAPI}/course/detail`, GET, obj);
+
+// 判断用户是否已收藏此课程
+export const getCourseOfUserByOne = (obj) =>
+  ajax(`${BASEAPI}/user/courseOne`, GET, obj);
+
+// API请求
 // 获取省份市区
 export const getArea = (obj) =>
   webAPI("https://restapi.amap.com/v3/config/district", obj);

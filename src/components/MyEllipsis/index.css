@@ -1,0 +1,13 @@
+.myellipsis-Paragraph {
+  margin-bottom: 0 !important;
+}
+.myellipsis-back {
+  color: #1890ff;
+  text-align: right;
+}
+
+@media (any-hover: hover) {
+  .myellipsis-back:hover {
+    cursor: pointer;
+  }
+}

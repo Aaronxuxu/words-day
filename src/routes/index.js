@@ -22,11 +22,11 @@ export const routes = [
     element: lazy(() => import("../pages/Course")),
     children: [
       {
-        key: "detail/:cID",
+        key: "detail/:cName",
         element: lazy(() => import("../pages/Course/Course_Detail")),
       },
       {
-        key: "read/:cID",
+        key: "read/:cName",
         element: lazy(() => import("../pages/Course/Course_Read")),
       },
     ],

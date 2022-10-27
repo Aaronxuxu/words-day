@@ -29,7 +29,7 @@ const adminImage = () => (
 function RouteTypo(props) {
   const { context } = props;
   return (
-    <div className="routeType w-border">
+    <div className="routeType w-border w-marginBottom">
       <Title level={3}>
         <Space>
           介绍

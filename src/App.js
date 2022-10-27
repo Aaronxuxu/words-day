@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import "./App.css";
 import { Routes, useLocation, useNavigate } from "react-router-dom";
@@ -6,10 +6,12 @@ import { mapRoutes } from "./routes";
 import Header from "./components/Header";
 import { BackTop, notification } from "antd";
 import LoginModal from "./components/LoginModal";
+
 function App(props) {
   const { token, isLogin } = props;
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const headerRef = useRef();
 
   // react 路由守卫
   useEffect(() => {
@@ -26,10 +28,23 @@ function App(props) {
     }
   }, [pathname, token]);
 
+  // 侦听header头部设置楼下高度
+  const [minHeader, setMinHeader] = useState(0);
+
+  useEffect(() => {
+    setMinHeader(headerRef.current.scrollHeight);
+  }, []);
+
   return (
-    <div className="App">
-      <Header></Header>
-      <div className="wd-routes">
+    <div
+      className="App"
+      style={{ "--main-min-height": `calc(100vh - ${minHeader}px)` }}
+    >
+      <div ref={headerRef}>
+        <Header></Header>
+      </div>
+
+      <div className={`wd-routes ${pathname === "/login" && "w-flex"}`}>
         <Suspense fallback={<>加载中</>}>
           <Routes>{mapRoutes.map((e) => e)}</Routes>
         </Suspense>
