@@ -1,0 +1,40 @@
+/* 移动端弹出框相关样式 */
+.courseRead-popup-body {
+  padding: 20px 15px;
+}
+.popup-body-title {
+  position: relative;
+  text-align: center;
+}
+.popup-body-title-icon {
+  position: absolute;
+  left: 0;
+}
+.popup-body-title-content {
+  font-size: 20px;
+  font-weight: 700;
+}
+.popup-body-formItem {
+  max-height: 50vh;
+  overflow: scroll;
+}
+.popup-body-form-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  padding: 0 0 12px 0;
+}
+
+.popup-body-formItem-footer-btn {
+  display: inline-block;
+}
+.popup-body-formItem-footer-reset {
+  width: 27%;
+}
+.popup-body-formItem-footer-confirm {
+  width: 70%;
+  margin-left: 3%;
+}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Form, Input, Button, message } from "antd";
+import { message } from "antd";
 import { connect } from "react-redux";
 import IconFont from "../../uitil/IconFont";
 import { closeLoginMadlAction } from "../../redux/actions/loginModal";
 import { loginAction } from "../../redux/actions/userToken";
-
+import LoginForm from "../LoginForm";
 import "./index.css";
 
 function LoginModal(props) {
@@ -15,8 +15,7 @@ function LoginModal(props) {
 
   const [opa, setOpa] = useState(0);
   const [trans, setTrans] = useState(0);
-
-  const [form] = Form.useForm();
+  const [form, setForm] = useState(null);
 
   // 隐藏显示
   const opcative = (key) => {
@@ -98,12 +97,10 @@ function LoginModal(props) {
     try {
       await loginAction(value);
       message.success({
-        className: "loginModal-message ",
         content: "登录成功，正在跳转回首页",
       });
     } catch (error) {
       message.error({
-        className: "loginModal-message ",
         content: error,
       });
     }
@@ -132,42 +129,7 @@ function LoginModal(props) {
           </div>
         </div>
         <div className="loginModal-body-form">
-          <Form
-            form={form}
-            style={{ width: "90%", margin: "auto" }}
-            onFinish={handleLogin}
-          >
-            <Form.Item
-              name="account"
-              rules={[{ required: true, message: "必填项" }]}
-            >
-              <Input
-                className="loginModal-body-form-radius"
-                bordered={true}
-                autoComplete="off"
-                placeholder="用户名或邮箱"
-              />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[{ required: true, message: "必填项" }]}
-            >
-              <Input.Password
-                className="loginModal-body-form-radius"
-                autoComplete="off"
-                placeholder="密码"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                htmlType="submit"
-                className="loginModal-body-form-radius loginModal-body-form-btn"
-                block
-              >
-                登录
-              </Button>
-            </Form.Item>
-          </Form>
+          <LoginForm handleLogin={handleLogin} setForm={setForm} />
         </div>
       </div>
     </div>

@@ -1,0 +1,13 @@
+.login-form-radius {
+  border-radius: 8px !important;
+}
+.login-form-btn {
+  height: auto !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  padding: var(--login-form-btn-padding, 8px 12px) !important;
+}
+.login-form-Input {
+  padding: var(--login-form-input-padding, 6.5px 11px) !important;
+}
+  

@@ -31,8 +31,17 @@ function App(props) {
   // 侦听header头部设置楼下高度
   const [minHeader, setMinHeader] = useState(0);
 
+  // 侦听头部方法
+  const interceptHeader = () => {
+    return setMinHeader(headerRef.current.scrollHeight);
+  };
+
   useEffect(() => {
-    setMinHeader(headerRef.current.scrollHeight);
+    interceptHeader();
+    window.addEventListener("resize", interceptHeader);
+    return () => {
+      window.removeEventListener("resize", interceptHeader);
+    };
   }, []);
 
   return (
